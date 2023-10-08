@@ -29,25 +29,31 @@ pipeline {
 
         stage('Push the artifacts'){
            steps{
-               withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'Docker_pwd')]) {
-              sh '''
-              docker push gopi1998/todoapp:${BUILD_NUMBER}
-              '''
-               }
+               script{
+                    withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'Docker_pwd')]) {
+                    sh '''
+                    docker login -u gopi1998 -p ${Docker_pwd}
+                    docker push gopi1998/todoapp:${BUILD_NUMBER}
+                    '''
+                    }
+                }
             }
         }
         
         stage('deploy'){
             steps {
-                withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'Docker_pwd')]) {
-               sh '''
-               docker pull gopi1998/todoapp:${BUILD_NUMBER}
-               echo 'doplying code to docker-compose'
-               docker-compose up -d 
-               '''
-               }
-            }
-        }
-    }
+                script{
+                     withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'Docker_pwd')]) {
+                     sh '''
+                     docker login -u gopi1998 -p ${Docker_pwd}
+                     docker pull gopi1998/todoapp:${BUILD_NUMBER}
+                     echo 'doplying code to docker-compose'
+                     docker-compose up -d 
+                      '''
+                     }
+                 }
+             }
+         }
+     }
 }
                 
