@@ -1,0 +1,7 @@
+version : "3.3"
+services :
+  web :
+    container_name : todoapp
+    image : gopi1998/todoapp:${BUILD_NUMBER}
+    ports :
+         - "8000:8000"
