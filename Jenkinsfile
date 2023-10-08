@@ -29,21 +29,23 @@ pipeline {
 
         stage('Push the artifacts'){
            steps{
+               withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'Docker_pwd')]) {
               sh '''
-              docker login
               docker push gopi1998/todoapp:${BUILD_NUMBER}
               '''
+               }
             }
         }
         
         stage('deploy'){
             steps {
+                withCredentials([string(credentialsId: 'dockerhub_pwd', variable: 'Docker_pwd')]) {
                sh '''
-               docker login
                docker pull gopi1998/todoapp:${BUILD_NUMBER}
                echo 'doplying code to docker-compose'
                docker-compose up -d 
                '''
+               }
             }
         }
     }
