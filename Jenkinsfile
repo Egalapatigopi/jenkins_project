@@ -42,8 +42,10 @@ pipeline {
             steps {
                withDockerRegistry(credentialsId: '3f215577-cdcb-4163-86dd-e7522806a8f6', url: 'https://hub.docker.com/repository/docker/gopi1998/todoapp/general')
                sh '''
+               docker pull gopi1998/todoapp:${BUILD_NUMBER}
                echo 'doplying code to docker-compose'
-               
+               docker-compose up -d 
+               '''
             }
         }
         
