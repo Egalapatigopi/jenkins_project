@@ -29,23 +29,19 @@ pipeline {
 
         stage('Push the artifacts'){
            steps{
-               stage('Pushing image') {
-                  sh '''
-                  docker push gopi1998/todoapp:${BUILD_NUMBER}
-                  '''
-               }
+              sh '''
+              docker push gopi1998/todoapp:${BUILD_NUMBER}
+              '''
             }
         }
         
         stage('deploy'){
             steps {
-                stage(deploying){
-                   sh '''
-                   docker pull gopi1998/todoapp:${BUILD_NUMBER}
-                   echo 'doplying code to docker-compose'
-                   docker-compose up -d 
-                    '''
-                }
+               sh '''
+               docker pull gopi1998/todoapp:${BUILD_NUMBER}
+               echo 'doplying code to docker-compose'
+               docker-compose up -d 
+               '''
             }
         }
     }
