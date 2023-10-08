@@ -35,6 +35,7 @@ pipeline {
                   docker push gopi1998/todoapp:${BUILD_NUMBER}
                   '''
                  }
+               }
             }
         }
         
