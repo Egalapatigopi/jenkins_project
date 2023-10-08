@@ -30,26 +30,22 @@ pipeline {
         stage('Push the artifacts'){
            steps{
                stage('Pushing image') {
-                  withDockerRegistry([ credentialsId: "3f215577-cdcb-4163-86dd-e7522806a8f6", url: "https://hub.docker.com/repository/docker" ]) {
                   sh '''
                   docker push gopi1998/todoapp:${BUILD_NUMBER}
                   '''
-                 }
                }
             }
         }
         
         stage('deploy'){
             steps {
-               script{
-                   withDockerRegistry([ credentialsId: "3f215577-cdcb-4163-86dd-e7522806a8f6", url: "https://hub.docker.com/repository/docker" ]) {
+                stage(deploying){
                    sh '''
                    docker pull gopi1998/todoapp:${BUILD_NUMBER}
                    echo 'doplying code to docker-compose'
                    docker-compose up -d 
                     '''
-                   }
-               }
+                }
             }
         }
     }
