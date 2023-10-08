@@ -30,6 +30,7 @@ pipeline {
         stage('Push the artifacts'){
            steps{
               sh '''
+              docker login
               docker push gopi1998/todoapp:${BUILD_NUMBER}
               '''
             }
@@ -38,6 +39,7 @@ pipeline {
         stage('deploy'){
             steps {
                sh '''
+               docker login
                docker pull gopi1998/todoapp:${BUILD_NUMBER}
                echo 'doplying code to docker-compose'
                docker-compose up -d 
