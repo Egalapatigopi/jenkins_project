@@ -29,12 +29,11 @@ pipeline {
 
         stage('Push the artifacts'){
            steps{
-                script{
+               withDockerRegistry(credentialsId: '3f215577-cdcb-4163-86dd-e7522806a8f6', url: 'https://hub.docker.com/repository/docker/gopi1998/todoapp/general')
                     sh '''
                     echo 'Push to Repo'
                     docker push gopi1998/todoapp:${BUILD_NUMBER}
                     '''
-                }
             }
         }
         
